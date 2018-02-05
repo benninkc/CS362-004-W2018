@@ -794,7 +794,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 	  break;
 		
     case village:
-      villageFunc(state, currentPlayer, handPos, numActions);
+      villageFunc(state, currentPlayer, handPos);
 	  break;
 		
     case baron:
@@ -1167,7 +1167,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 ** Description: Function to implement adventurer as a stand alone
 ** function
 *********************************************************************/
-int adventurerFunc(struct gameState *state, int currentPlayer, int drawnTreasure, int cardDrawn, int tempHand[], int z)
+int adventurerFunc(struct gameState *state, int currentPlayer, int drawntreasure, int cardDrawn, int temphand[], int z)
 {
 	while(drawntreasure<3){ //bugline changed will run while drawn treasure is <3 instead of <2
 		if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
@@ -1212,8 +1212,9 @@ int greatHallFunc(struct gameState *state, int currentPlayer, int handPos)
 ** Description: Function to implement smithy as a stand alone
 ** function
 *********************************************************************/
-int smithyFunc(gameState *state, int currentPlayer, int handPos)
+int smithyFunc(struct gameState *state, int currentPlayer, int handPos)
 {
+	int i;
 	//+3 Cards
     for (i = 0; i < 2; i++) //bugline, will only draw 2 cards now instead of 3.
 	{
@@ -1231,6 +1232,7 @@ int smithyFunc(gameState *state, int currentPlayer, int handPos)
 *********************************************************************/
 int remodelFunc(struct gameState *state, int currentPlayer, int handPos, int choice1, int choice2)
 {
+	int i, j;
     j = state->hand[currentPlayer][choice1];  //store card we will trash
 
     if ( (getCost(state->hand[currentPlayer][choice1]) + 2) > getCost(choice2) )
@@ -1261,7 +1263,7 @@ int remodelFunc(struct gameState *state, int currentPlayer, int handPos, int cho
 ** Description: Function to implement village as a stand alone
 ** function
 *********************************************************************/
-int villageFunc(struct gameState *state, int currentPlayer, int handPos, int numActions)
+int villageFunc(struct gameState *state, int currentPlayer, int handPos)
 {
 	//+1 Card
     drawCard(currentPlayer, state);

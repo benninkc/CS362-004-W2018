@@ -1,0 +1,82 @@
+        -:    0:Source:unittest2.c
+        -:    0:Graph:unittest2.gcno
+        -:    0:Data:unittest2.gcda
+        -:    0:Runs:3
+        -:    0:Programs:1
+        -:    1:/*********************************************************************
+        -:    2: ** Author: Casey Bennink ONID: benninkc
+        -:    3: ** Date: 2/4/18
+        -:    4: ** Description: Assignment 3 unittest2.c
+        -:    5: ** unit test for whoseTurn function
+        -:    6:*********************************************************************/
+        -:    7:#include "dominion.h"
+        -:    8:#include "dominion_helpers.h"
+        -:    9:#include <string.h>
+        -:   10:#include <stdio.h>
+        -:   11:#include <assert.h>
+        -:   12:#include "rngs.h"
+        -:   13:
+function main called 3 returned 100% blocks executed 95%
+        3:   14:int main(int argc, char const *argv[]) {
+        3:   15:    int seed = 1024;
+        -:   16:    int curPlayer;
+        3:   17:    int numPlayer = 3;
+        -:   18:    int p, r, turnRes, corRes;
+        3:   19:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   20:               , remodel, smithy, village, baron, great_hall};
+        -:   21:    struct gameState G;
+        3:   22:    int maxHandCount = 5;
+        -:   23:
+        3:   24:    printf ("TESTING whoseTurn\n");
+call    0 returned 100%
+       12:   25:    for (p = 0; p < numPlayer; p++)	{
+branch  0 taken 75%
+branch  1 taken 25% (fallthrough)
+       45:   26:    		for (curPlayer = 0; curPlayer <= numPlayer; curPlayer++) {
+branch  0 taken 80%
+branch  1 taken 20% (fallthrough)
+       36:   27:    				printf("Testing %d players with player %d's turn\n", p, curPlayer);
+call    0 returned 100%
+       36:   28:    				memset(&G, 23, sizeof(struct gameState));
+       36:   29:    				r = initializeGame(p, k, seed, &G);
+call    0 returned 100%
+        -:   30:
+       36:   31:    				if (curPlayer == numPlayer) {
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
+        9:   32:    					G.whoseTurn = 0;
+        -:   33:    				}
+        -:   34:    				else {
+       27:   35:    					G.whoseTurn = curPlayer;
+        -:   36:    				}
+        -:   37:    				
+        -:   38:
+       36:   39:    				turnRes = whoseTurn(&G);
+call    0 returned 100%
+       36:   40:    				if (curPlayer == numPlayer) {
+branch  0 taken 25% (fallthrough)
+branch  1 taken 75%
+        9:   41:    					corRes = 0;
+        9:   42:    					printf("turn =  %d, expected = %d \n", turnRes, corRes);
+call    0 returned 100%
+        -:   43:    				}
+        -:   44:    				else {
+       27:   45:    					corRes = curPlayer;
+       27:   46:    					printf("turn =  %d, expected = %d \n", turnRes, corRes);
+call    0 returned 100%
+        -:   47:					}
+       36:   48:    				if (turnRes == corRes) {
+branch  0 taken 100% (fallthrough)
+branch  1 taken 0%
+       36:   49:    					printf("TEST PASSED\n");
+call    0 returned 100%
+        -:   50:    				}
+        -:   51:    				else {
+    #####:   52:    					printf("TEST FAILED\n");
+call    0 never executed
+        -:   53:    				}
+        -:   54:    		}
+        -:   55:    }
+        -:   56:
+        3:   57:	return 0;
+        -:   58:}
