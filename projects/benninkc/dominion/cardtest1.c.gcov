@@ -1,71 +1,62 @@
         -:    0:Source:cardtest1.c
         -:    0:Graph:cardtest1.gcno
         -:    0:Data:cardtest1.gcda
-        -:    0:Runs:3
+        -:    0:Runs:1
         -:    0:Programs:1
-        -:    1:#include "dominion.h"
-        -:    2:#include "dominion_helpers.h"
-        -:    3:#include <string.h>
-        -:    4:#include <stdio.h>
-        -:    5:#include <assert.h>
-        -:    6:#include "rngs.h"
+        -:    1:/*********************************************************************
+        -:    2: ** Author: Casey Bennink ONID: benninkc
+        -:    3: ** Date: 2/4/18
+        -:    4: ** Description: Assignment 3 cardtest1.c
+        -:    5: ** test for Smithy
+        -:    6:*********************************************************************/
         -:    7:
-function main called 3 returned 100% blocks executed 95%
-        3:    8:int main(int argc, char const *argv[]) {
-        3:    9:    int seed = 1024;
-        3:   10:    int numPlayer = 3;
-        -:   11:    int p, r, handCount;
-        3:   12:    int k[10] = {adventurer, council_room, feast, gardens, mine
-        -:   13:               , remodel, smithy, village, baron, great_hall};
-        -:   14:    struct gameState G;
-        3:   15:    int maxHandCount = 5;
-        -:   16:
-        -:   17:    int smy[MAX_HAND];
-        -:   18:    int i;
-     1503:   19:    for (i = 0; i < MAX_HAND; i++)
-branch  0 taken 99%
-branch  1 taken 1% (fallthrough)
-        -:   20:    {
-     1500:   21:        smy[i] = smithy;
-        -:   22:    }
+        -:    8:#include "dominion.h"
+        -:    9:#include "dominion_helpers.h"
+        -:   10:#include <string.h>
+        -:   11:#include <stdio.h>
+        -:   12:#include <assert.h>
+        -:   13:#include "rngs.h"
+        -:   14:
+        1:   15:int main(int argc, char const *argv[]) {
+        1:   16:    int seed = 1024;
+        1:   17:    int numPlayer = 3;
+        -:   18:    int p, r, handCount;
+        1:   19:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   20:               , remodel, smithy, village, baron, great_hall};
+        -:   21:    struct gameState G;
+        1:   22:    int maxHandCount = 5;
         -:   23:
-        3:   24:    printf ("TESTING smithy card:\n");
-call    0 returned 100%
-       12:   25:    for (p = 0; p < numPlayer; p++) {
-branch  0 taken 75%
-branch  1 taken 25% (fallthrough)
-        -:   26:
-       63:   27:    	for (handCount = 0; handCount <= maxHandCount; handCount++) {
-branch  0 taken 86%
-branch  1 taken 14% (fallthrough)
-       54:   28:    		printf("Test player %d playing Smithy card, hand size: %d\n", p, handCount);
-call    0 returned 100%
-        -:   29:    		
-       54:   30:    		memset(&G, 23, sizeof(struct gameState));
-       54:   31:            r = initializeGame(numPlayer, k, seed, &G);
-call    0 returned 100%
-       54:   32:            G.whoseTurn = p;
-       54:   33:            G.handCount[p] = handCount;
-       54:   34:            memcpy(G.hand[p], smy, sizeof(int) * handCount);
-        -:   35:
-       54:   36:            r = playCard(0, 0, 0, 0, &G);
-call    0 returned 100%
-        -:   37:
-       54:   38:            printf("G.handCount = %d, expected = %d\n", G.handCount[p], handCount + 2);
-call    0 returned 100%
-        -:   39:
-       54:   40:            if (G.handCount[p] == handCount + 2) {
-branch  0 taken 0% (fallthrough)
-branch  1 taken 100%
-    #####:   41:            	printf("Smithy TEST PASSED\n");
-call    0 never executed
-        -:   42:            }
-        -:   43:            else {
-       54:   44:            	printf("Smith TEST FAILED\n");
-call    0 returned 100%
-        -:   45:            }
-        -:   46:    	}
-        -:   47:    }
-        -:   48:
-        3:   49:	return 0;
-        -:   50:}
+        -:   24:    int smy[MAX_HAND];
+        -:   25:    int i;
+      501:   26:    for (i = 0; i < MAX_HAND; i++)
+        -:   27:    {
+      500:   28:        smy[i] = smithy;
+        -:   29:    }
+        -:   30:
+        1:   31:    printf ("TESTING smithy card:\n");
+        4:   32:    for (p = 0; p < numPlayer; p++) {
+        -:   33:
+       21:   34:    	for (handCount = 0; handCount <= maxHandCount; handCount++) {
+       18:   35:    		printf("Test player %d playing Smithy card, hand size: %d\n", p, handCount);
+        -:   36:    		
+       18:   37:    		memset(&G, 23, sizeof(struct gameState));
+       18:   38:            r = initializeGame(numPlayer, k, seed, &G);
+       18:   39:            G.whoseTurn = p;
+       18:   40:            G.handCount[p] = handCount;
+       18:   41:            memcpy(G.hand[p], smy, sizeof(int) * handCount);
+        -:   42:
+       18:   43:            r = playCard(0, 0, 0, 0, &G);
+        -:   44:
+       18:   45:            printf("G.handCount = %d, expected = %d\n", G.handCount[p], handCount + 2);
+        -:   46:
+       18:   47:            if (G.handCount[p] == handCount + 2) {
+    #####:   48:            	printf("Smithy TEST PASSED\n");
+        -:   49:            }
+        -:   50:            else {
+       18:   51:            	printf("Smith TEST FAILED\n");
+        -:   52:            }
+        -:   53:    	}
+        -:   54:    }
+        -:   55:
+        1:   56:	return 0;
+        -:   57:}

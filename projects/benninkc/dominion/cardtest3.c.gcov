@@ -1,7 +1,7 @@
         -:    0:Source:cardtest3.c
         -:    0:Graph:cardtest3.gcno
         -:    0:Data:cardtest3.gcda
-        -:    0:Runs:3
+        -:    0:Runs:1
         -:    0:Programs:1
         -:    1:/*********************************************************************
         -:    2: ** Author: Casey Bennink ONID: benninkc
@@ -16,67 +16,48 @@
         -:   11:#include <assert.h>
         -:   12:#include "rngs.h"
         -:   13:
-function main called 3 returned 100% blocks executed 95%
-        3:   14:int main(int argc, char const *argv[]) {
+        1:   14:int main(int argc, char const *argv[]) {
         -:   15:    int i;
-        3:   16:    int seed = 1024;
-        3:   17:    int numPlayer = 3;
+        1:   16:    int seed = 1024;
+        1:   17:    int numPlayer = 3;
         -:   18:    int p, r, handCount, correctActions;
-        3:   19:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        1:   19:    int k[10] = {adventurer, council_room, feast, gardens, mine
         -:   20:               , remodel, smithy, village, baron, great_hall};
         -:   21:    struct gameState G;
-        3:   22:    int maxHandCount = 5;
+        1:   22:    int maxHandCount = 5;
         -:   23:    int vil[MAX_HAND];
-     1503:   24:    for (i = 0; i < MAX_HAND; i++)
-branch  0 taken 99%
-branch  1 taken 1% (fallthrough)
+      501:   24:    for (i = 0; i < MAX_HAND; i++)
         -:   25:    {
-     1500:   26:        vil[i] = village;
+      500:   26:        vil[i] = village;
         -:   27:    }
         -:   28:
-        3:   29:    printf ("TESTING village card:\n");
-call    0 returned 100%
-       12:   30:    for (p = 0; p < numPlayer; p++) {
-branch  0 taken 75%
-branch  1 taken 25% (fallthrough)
+        1:   29:    printf ("TESTING village card:\n");
+        4:   30:    for (p = 0; p < numPlayer; p++) {
         -:   31:
-       63:   32:    	for (handCount = 0; handCount <= maxHandCount; handCount++) {
-branch  0 taken 86%
-branch  1 taken 14% (fallthrough)
-       54:   33:    		printf("Test player %d playing Village card, hand size: %d\n", p, handCount);
-call    0 returned 100%
+       21:   32:    	for (handCount = 0; handCount <= maxHandCount; handCount++) {
+       18:   33:    		printf("Test player %d playing Village card, hand size: %d\n", p, handCount);
         -:   34:    		
-       54:   35:    		memset(&G, 23, sizeof(struct gameState));
-       54:   36:            r = initializeGame(numPlayer, k, seed, &G);
-call    0 returned 100%
-       54:   37:            G.whoseTurn = p;
-       54:   38:            G.handCount[p] = handCount;
-       54:   39:            correctActions = G.numActions + 1;
+       18:   35:    		memset(&G, 23, sizeof(struct gameState));
+       18:   36:            r = initializeGame(numPlayer, k, seed, &G);
+       18:   37:            G.whoseTurn = p;
+       18:   38:            G.handCount[p] = handCount;
+       18:   39:            correctActions = G.numActions + 1;
         -:   40:
-       54:   41:            memcpy(G.hand[p], vil, sizeof(int) * handCount);
+       18:   41:            memcpy(G.hand[p], vil, sizeof(int) * handCount);
         -:   42:
-       54:   43:            r = playCard(0, 0, 0, 0, &G);
-call    0 returned 100%
+       18:   43:            r = playCard(0, 0, 0, 0, &G);
         -:   44:
-       54:   45:            printf("G.handCount = %d, expected = %d\n", G.handCount[p], handCount);
-call    0 returned 100%
-       54:   46:            printf("G.numActions = %d, expected = %d\n", G.numActions, correctActions);
-call    0 returned 100%
+       18:   45:            printf("G.handCount = %d, expected = %d\n", G.handCount[p], handCount);
+       18:   46:            printf("G.numActions = %d, expected = %d\n", G.numActions, correctActions);
         -:   47:
-       54:   48:            if (G.handCount[p] == handCount && G.numActions == correctActions) {
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
-branch  2 taken 0% (fallthrough)
-branch  3 taken 100%
+       18:   48:            if (G.handCount[p] == handCount && G.numActions == correctActions) {
     #####:   49:            	printf("Village TEST PASSED\n");
-call    0 never executed
         -:   50:            }
         -:   51:            else {
-       54:   52:            	printf("Village TEST FAILED\n");
-call    0 returned 100%
+       18:   52:            	printf("Village TEST FAILED\n");
         -:   53:            }
         -:   54:    	}
         -:   55:    }
         -:   56:
-        3:   57:	return 0;
+        1:   57:	return 0;
         -:   58:}

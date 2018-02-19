@@ -1,7 +1,7 @@
         -:    0:Source:cardtest2.c
         -:    0:Graph:cardtest2.gcno
         -:    0:Data:cardtest2.gcda
-        -:    0:Runs:3
+        -:    0:Runs:1
         -:    0:Programs:1
         -:    1:/*********************************************************************
         -:    2: ** Author: Casey Bennink ONID: benninkc
@@ -26,63 +26,45 @@
         -:   21:#include <assert.h>
         -:   22:#include "rngs.h"
         -:   23:
-function main called 3 returned 100% blocks executed 95%
-        3:   24:int main(int argc, char const *argv[]) {
+        1:   24:int main(int argc, char const *argv[]) {
         -:   25:    int i;
-        3:   26:    int seed = 1024;
-        3:   27:    int numPlayer = 3;
+        1:   26:    int seed = 1024;
+        1:   27:    int numPlayer = 3;
         -:   28:    int p, r, handCount;
-        3:   29:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        1:   29:    int k[10] = {adventurer, council_room, feast, gardens, mine
         -:   30:               , remodel, smithy, village, baron, great_hall};
         -:   31:    struct gameState G;
-        3:   32:    int maxHandCount = 5;
+        1:   32:    int maxHandCount = 5;
         -:   33:    int ads[MAX_HAND];
-     1503:   34:    for (i = 0; i < MAX_HAND; i++)
-branch  0 taken 99%
-branch  1 taken 1% (fallthrough)
+      501:   34:    for (i = 0; i < MAX_HAND; i++)
         -:   35:    {
-     1500:   36:        ads[i] = adventurer;
+      500:   36:        ads[i] = adventurer;
         -:   37:    }
         -:   38:
-        3:   39:    printf ("TESTING adventurer card:\n");
-call    0 returned 100%
-       12:   40:    for (p = 0; p < numPlayer; p++) {
-branch  0 taken 75%
-branch  1 taken 25% (fallthrough)
-       54:   41:    	for (handCount = 1; handCount <= maxHandCount; handCount++) {
-branch  0 taken 83%
-branch  1 taken 17% (fallthrough)
-       45:   42:    		printf("Test player %d playing adventurer card, hand size: %d\n", p, handCount);
-call    0 returned 100%
+        1:   39:    printf ("TESTING adventurer card:\n");
+        4:   40:    for (p = 0; p < numPlayer; p++) {
+       18:   41:    	for (handCount = 1; handCount <= maxHandCount; handCount++) {
+       15:   42:    		printf("Test player %d playing adventurer card, hand size: %d\n", p, handCount);
         -:   43:    		
-       45:   44:    		memset(&G, 23, sizeof(struct gameState));
-       45:   45:            r = initializeGame(numPlayer, k, seed, &G);
-call    0 returned 100%
-       45:   46:            G.whoseTurn = p;
-       45:   47:            G.handCount[p] = handCount;
-       45:   48:            memcpy(G.hand[p], ads, sizeof(int) * handCount);
+       15:   44:    		memset(&G, 23, sizeof(struct gameState));
+       15:   45:            r = initializeGame(numPlayer, k, seed, &G);
+       15:   46:            G.whoseTurn = p;
+       15:   47:            G.handCount[p] = handCount;
+       15:   48:            memcpy(G.hand[p], ads, sizeof(int) * handCount);
         -:   49:
-       45:   50:            r = playCard(0, 0, 0, 0, &G);
-call    0 returned 100%
+       15:   50:            r = playCard(0, 0, 0, 0, &G);
         -:   51:
-       45:   52:            printf("G.handCount = %d, %d <= expected <= %d\n", G.handCount[p], handCount - 1, handCount + 1);
-call    0 returned 100%
+       15:   52:            printf("G.handCount = %d, %d <= expected <= %d\n", G.handCount[p], handCount - 1, handCount + 1);
         -:   53:
-       45:   54:            if (G.handCount[p] >= handCount - 1 && G.handCount <= handCount + 1) {
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
-branch  2 taken 0% (fallthrough)
-branch  3 taken 100%
+       15:   54:            if (G.handCount[p] >= handCount - 1 && G.handCount <= handCount + 1) {
     #####:   55:            	printf("Adventurer TEST PASSED\n");
-call    0 never executed
         -:   56:            }
         -:   57:            else {
-       45:   58:            	printf("Adventurer TEST FAILED\n");
-call    0 returned 100%
+       15:   58:            	printf("Adventurer TEST FAILED\n");
         -:   59:            }
         -:   60:    	}
         -:   61:    }
         -:   62:
         -:   63:
-        3:   64:	return 0;
+        1:   64:	return 0;
         -:   65:}

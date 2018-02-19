@@ -1,7 +1,7 @@
         -:    0:Source:unittest2.c
         -:    0:Graph:unittest2.gcno
         -:    0:Data:unittest2.gcda
-        -:    0:Runs:3
+        -:    0:Runs:1
         -:    0:Programs:1
         -:    1:/*********************************************************************
         -:    2: ** Author: Casey Bennink ONID: benninkc
@@ -16,67 +16,48 @@
         -:   11:#include <assert.h>
         -:   12:#include "rngs.h"
         -:   13:
-function main called 3 returned 100% blocks executed 95%
-        3:   14:int main(int argc, char const *argv[]) {
-        3:   15:    int seed = 1024;
+        1:   14:int main(int argc, char const *argv[]) {
+        1:   15:    int seed = 1024;
         -:   16:    int curPlayer;
-        3:   17:    int numPlayer = 3;
+        1:   17:    int numPlayer = 3;
         -:   18:    int p, r, turnRes, corRes;
-        3:   19:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        1:   19:    int k[10] = {adventurer, council_room, feast, gardens, mine
         -:   20:               , remodel, smithy, village, baron, great_hall};
         -:   21:    struct gameState G;
-        3:   22:    int maxHandCount = 5;
+        1:   22:    int maxHandCount = 5;
         -:   23:
-        3:   24:    printf ("TESTING whoseTurn\n");
-call    0 returned 100%
-       12:   25:    for (p = 0; p < numPlayer; p++)	{
-branch  0 taken 75%
-branch  1 taken 25% (fallthrough)
-       45:   26:    		for (curPlayer = 0; curPlayer <= numPlayer; curPlayer++) {
-branch  0 taken 80%
-branch  1 taken 20% (fallthrough)
-       36:   27:    				printf("Testing %d players with player %d's turn\n", p, curPlayer);
-call    0 returned 100%
-       36:   28:    				memset(&G, 23, sizeof(struct gameState));
-       36:   29:    				r = initializeGame(p, k, seed, &G);
-call    0 returned 100%
+        1:   24:    printf ("TESTING whoseTurn\n");
+        4:   25:    for (p = 0; p < numPlayer; p++)	{
+       15:   26:    		for (curPlayer = 0; curPlayer <= numPlayer; curPlayer++) {
+       12:   27:    				printf("Testing %d players with player %d's turn\n", p, curPlayer);
+       12:   28:    				memset(&G, 23, sizeof(struct gameState));
+       12:   29:    				r = initializeGame(p, k, seed, &G);
         -:   30:
-       36:   31:    				if (curPlayer == numPlayer) {
-branch  0 taken 25% (fallthrough)
-branch  1 taken 75%
-        9:   32:    					G.whoseTurn = 0;
+       12:   31:    				if (curPlayer == numPlayer) {
+        3:   32:    					G.whoseTurn = 0;
         -:   33:    				}
         -:   34:    				else {
-       27:   35:    					G.whoseTurn = curPlayer;
+        9:   35:    					G.whoseTurn = curPlayer;
         -:   36:    				}
         -:   37:    				
         -:   38:
-       36:   39:    				turnRes = whoseTurn(&G);
-call    0 returned 100%
-       36:   40:    				if (curPlayer == numPlayer) {
-branch  0 taken 25% (fallthrough)
-branch  1 taken 75%
-        9:   41:    					corRes = 0;
-        9:   42:    					printf("turn =  %d, expected = %d \n", turnRes, corRes);
-call    0 returned 100%
+       12:   39:    				turnRes = whoseTurn(&G);
+       12:   40:    				if (curPlayer == numPlayer) {
+        3:   41:    					corRes = 0;
+        3:   42:    					printf("turn =  %d, expected = %d \n", turnRes, corRes);
         -:   43:    				}
         -:   44:    				else {
-       27:   45:    					corRes = curPlayer;
-       27:   46:    					printf("turn =  %d, expected = %d \n", turnRes, corRes);
-call    0 returned 100%
+        9:   45:    					corRes = curPlayer;
+        9:   46:    					printf("turn =  %d, expected = %d \n", turnRes, corRes);
         -:   47:					}
-       36:   48:    				if (turnRes == corRes) {
-branch  0 taken 100% (fallthrough)
-branch  1 taken 0%
-       36:   49:    					printf("TEST PASSED\n");
-call    0 returned 100%
+       12:   48:    				if (turnRes == corRes) {
+       12:   49:    					printf("whoseTurn TEST PASSED\n");
         -:   50:    				}
         -:   51:    				else {
-    #####:   52:    					printf("TEST FAILED\n");
-call    0 never executed
+    #####:   52:    					printf("whoseTurn TEST FAILED\n");
         -:   53:    				}
         -:   54:    		}
         -:   55:    }
         -:   56:
-        3:   57:	return 0;
+        1:   57:	return 0;
         -:   58:}
