@@ -1,0 +1,64 @@
+        -:    0:Source:cardtest3.c
+        -:    0:Graph:cardtest3.gcno
+        -:    0:Data:cardtest3.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*********************************************************************
+        -:    2: ** Author: Casey Bennink ONID: benninkc
+        -:    3: ** Date: 2/4/18
+        -:    4: ** Description: Assignment 3 cardtest3.c
+        -:    5: ** test for Village
+        -:    6:*********************************************************************/
+        -:    7:#include "dominion.h"
+        -:    8:#include "dominion_helpers.h"
+        -:    9:#include <string.h>
+        -:   10:#include <stdio.h>
+        -:   11:#include <assert.h>
+        -:   12:#include <math.h>
+        -:   13:#include "rngs.h"
+        -:   14:
+        1:   15:int main(int argc, char const *argv[]) {
+        -:   16:    int i;
+        1:   17:    int seed = 1024;
+        1:   18:    int numPlayer = 3;
+        -:   19:    int p, r, handCount, correctActions;
+        1:   20:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   21:               , remodel, smithy, village, baron, great_hall};
+        -:   22:    struct gameState G;
+        1:   23:    int maxHandCount = 5;
+        -:   24:    int vil[MAX_HAND];
+      501:   25:    for (i = 0; i < MAX_HAND; i++)
+        -:   26:    {
+      500:   27:        vil[i] = village;
+        -:   28:    }
+        -:   29:
+        1:   30:    printf ("TESTING village card:\n");
+        4:   31:    for (p = 0; p < numPlayer; p++) {
+        -:   32:
+       18:   33:    	for (handCount = 1; handCount <= maxHandCount; handCount++) {
+       15:   34:    		printf("Test player %d playing Village card, hand size: %d\n", p, handCount);
+        -:   35:    		
+       15:   36:    		memset(&G, 23, sizeof(struct gameState));
+       15:   37:            r = initializeGame(numPlayer, k, seed, &G);
+       15:   38:            G.whoseTurn = p;
+       15:   39:            G.handCount[p] = handCount;
+       15:   40:            correctActions = G.numActions + 1;
+        -:   41:
+       15:   42:            memcpy(G.hand[p], vil, sizeof(int) * handCount);
+        -:   43:
+       15:   44:            r = playCard(0, 0, 0, 0, &G);
+        -:   45:
+       15:   46:            printf("G.handCount = %d, expected = %d\n", G.handCount[p], handCount);
+       15:   47:            printf("G.numActions = %d, expected = %d\n", G.numActions, correctActions);
+        -:   48:
+       15:   49:            if (G.handCount[p] == handCount && G.numActions == correctActions) {
+       15:   50:            	printf("Village TEST PASSED\n");
+        -:   51:            }
+        -:   52:            else {
+    #####:   53:            	printf("Village TEST FAILED\n");
+        -:   54:            }
+        -:   55:    	}
+        -:   56:    }
+        -:   57:
+        1:   58:	return 0;
+        -:   59:}

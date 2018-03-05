@@ -1,0 +1,63 @@
+        -:    0:Source:unittest2.c
+        -:    0:Graph:unittest2.gcno
+        -:    0:Data:unittest2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*********************************************************************
+        -:    2: ** Author: Casey Bennink ONID: benninkc
+        -:    3: ** Date: 2/4/18
+        -:    4: ** Description: Assignment 3 unittest2.c
+        -:    5: ** unit test for whoseTurn function
+        -:    6:*********************************************************************/
+        -:    7:#include "dominion.h"
+        -:    8:#include "dominion_helpers.h"
+        -:    9:#include <string.h>
+        -:   10:#include <stdio.h>
+        -:   11:#include <assert.h>
+        -:   12:#include "rngs.h"
+        -:   13:
+        1:   14:int main(int argc, char const *argv[]) {
+        1:   15:    int seed = 1024;
+        -:   16:    int curPlayer;
+        1:   17:    int numPlayer = 3;
+        -:   18:    int p, r, turnRes, corRes;
+        1:   19:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   20:               , remodel, smithy, village, baron, great_hall};
+        -:   21:    struct gameState G;
+        1:   22:    int maxHandCount = 5;
+        -:   23:
+        1:   24:    printf ("TESTING whoseTurn\n");
+        4:   25:    for (p = 0; p < numPlayer; p++)	{
+       15:   26:    		for (curPlayer = 0; curPlayer <= numPlayer; curPlayer++) {
+       12:   27:    				printf("Testing %d players with player %d's turn\n", p, curPlayer);
+       12:   28:    				memset(&G, 23, sizeof(struct gameState));
+       12:   29:    				r = initializeGame(p, k, seed, &G);
+        -:   30:
+       12:   31:    				if (curPlayer == numPlayer) {
+        3:   32:    					G.whoseTurn = 0;
+        -:   33:    				}
+        -:   34:    				else {
+        9:   35:    					G.whoseTurn = curPlayer;
+        -:   36:    				}
+        -:   37:    				
+        -:   38:
+       12:   39:    				turnRes = whoseTurn(&G);
+       12:   40:    				if (curPlayer == numPlayer) {
+        3:   41:    					corRes = 0;
+        3:   42:    					printf("turn =  %d, expected = %d \n", turnRes, corRes);
+        -:   43:    				}
+        -:   44:    				else {
+        9:   45:    					corRes = curPlayer;
+        9:   46:    					printf("turn =  %d, expected = %d \n", turnRes, corRes);
+        -:   47:					}
+       12:   48:    				if (turnRes == corRes) {
+       12:   49:    					printf("whoseTurn TEST PASSED\n");
+        -:   50:    				}
+        -:   51:    				else {
+    #####:   52:    					printf("whoseTurn TEST FAILED\n");
+        -:   53:    				}
+        -:   54:    		}
+        -:   55:    }
+        -:   56:
+        1:   57:	return 0;
+        -:   58:}

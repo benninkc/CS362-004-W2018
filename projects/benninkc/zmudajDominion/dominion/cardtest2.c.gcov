@@ -1,0 +1,70 @@
+        -:    0:Source:cardtest2.c
+        -:    0:Graph:cardtest2.gcno
+        -:    0:Data:cardtest2.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*********************************************************************
+        -:    2: ** Author: Casey Bennink ONID: benninkc
+        -:    3: ** Date: 2/4/18
+        -:    4: ** Description: Assignment 3 cardtest2.c
+        -:    5: ** test for Adventurer
+        -:    6:*********************************************************************/
+        -:    7:#include "dominion.h"
+        -:    8:#include "dominion_helpers.h"
+        -:    9:#include <string.h>
+        -:   10:#include <stdio.h>
+        -:   11:#include <assert.h>
+        -:   12:#include "rngs.h"
+        -:   13:#include <stdlib.h>
+        -:   14:#include <time.h>
+        -:   15:
+        -:   16:
+        -:   17:#include "dominion.h"
+        -:   18:#include "dominion_helpers.h"
+        -:   19:#include <string.h>
+        -:   20:#include <stdio.h>
+        -:   21:#include <assert.h>
+        -:   22:#include "rngs.h"
+        -:   23:
+        1:   24:int main(int argc, char const *argv[]) {
+        -:   25:    int i;
+        1:   26:    int seed = 1024;
+        1:   27:    int numPlayer = 3;
+        -:   28:    int p, r, handCount;
+        1:   29:    int k[10] = {adventurer, council_room, feast, gardens, mine
+        -:   30:               , remodel, smithy, village, baron, great_hall};
+        -:   31:    struct gameState G;
+        1:   32:    int maxHandCount = 5;
+        -:   33:    int ads[MAX_HAND];
+      501:   34:    for (i = 0; i < MAX_HAND; i++)
+        -:   35:    {
+      500:   36:        ads[i] = adventurer;
+        -:   37:    }
+        -:   38:
+        1:   39:    printf ("TESTING adventurer card:\n");
+        4:   40:    for (p = 0; p < numPlayer; p++) {
+       18:   41:    	for (handCount = 1; handCount <= maxHandCount; handCount++) {
+       15:   42:    		printf("Test player %d playing adventurer card, hand size: %d\n", p, handCount);
+        -:   43:    		
+       15:   44:    		memset(&G, 23, sizeof(struct gameState));
+       15:   45:            r = initializeGame(numPlayer, k, seed, &G);
+       15:   46:            G.whoseTurn = p;
+       15:   47:            G.handCount[p] = handCount;
+       15:   48:            memcpy(G.hand[p], ads, sizeof(int) * handCount);
+        -:   49:
+       15:   50:            r = playCard(0, 0, 0, 0, &G);
+        -:   51:
+       15:   52:            printf("G.handCount = %d, %d <= expected <= %d\n", G.handCount[p], handCount - 1, handCount + 1);
+        -:   53:
+       15:   54:            if (G.handCount[p] >= handCount - 1 && G.handCount[p] <= handCount + 1) {
+    #####:   55:            	printf("Adventurer TEST PASSED\n");
+        -:   56:            }
+        -:   57:            else {
+       15:   58:            	printf("Adventurer TEST FAILED\n");
+        -:   59:            }
+        -:   60:    	}
+        -:   61:    }
+        -:   62:
+        -:   63:
+        1:   64:	return 0;
+        -:   65:}

@@ -1,0 +1,66 @@
+        -:    0:Source:unittest3.c
+        -:    0:Graph:unittest3.gcno
+        -:    0:Data:unittest3.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*********************************************************************
+        -:    2: ** Author: Casey Bennink ONID: benninkc
+        -:    3: ** Date: 2/4/18
+        -:    4: ** Description: Assignment 3 unittest3.c
+        -:    5: ** unit test for drawCard function
+        -:    6:*********************************************************************/
+        -:    7:#include "dominion.h"
+        -:    8:#include "dominion_helpers.h"
+        -:    9:#include <string.h>
+        -:   10:#include <stdio.h>
+        -:   11:#include <assert.h>
+        -:   12:#include "rngs.h"
+        -:   13:
+        -:   14:
+        1:   15:int checkDrawCard(int p, struct gameState *G) 
+        -:   16:{
+        -:   17:	struct gameState G2;
+        1:   18:	memcpy (&G2, G, sizeof(struct gameState));
+        -:   19:
+        1:   20:	int r = drawCard(p, G);
+        -:   21:
+        1:   22:	if (G2.deckCount[p] > 0) {
+        1:   23:		G2.handCount[p]++;
+        1:   24:		G2.hand[p][G2.handCount[p]-1] = G2.deck[p][G2.deckCount[p]-1];
+        1:   25:		G2.deckCount[p]--;
+        -:   26:	}
+        -:   27:	else {
+    #####:   28:		memcpy(G2.deck[p], G->deck[p], sizeof(int)*G2.discardCount[p]);
+    #####:   29:		memcpy(G2.discard[p], G->discard[p], sizeof(int)*G2.discardCount[p]);
+        -:   30:
+    #####:   31:		G2.hand[p][G->handCount[p]-1] = G->hand[p][G->handCount[p]-1];
+    #####:   32:		G2.handCount[p]++;
+    #####:   33:		G2.deckCount[p] = G2.discardCount[p]-1;
+    #####:   34:		G2.discardCount[p] = 0;
+        -:   35:	}
+        -:   36:
+        1:   37:	assert(r == 0);
+        -:   38:
+        1:   39:	int result = memcmp(&G2, G, sizeof(struct gameState));
+        1:   40:	assert(result == 0);
+        1:   41:	if (result == 0)
+        1:   42:		printf("drawCard TEST SUCCESSFULLY COMPLETED\n");
+        -:   43:	else
+    #####:   44:		printf("drawCard TEST FAILED\n");
+        -:   45:
+        1:   46:  return 0;
+        -:   47:}
+        -:   48:
+        1:   49:int main() {
+        1:   50:	int k[10] = {adventurer, council_room, feast, gardens, mine, remodel, smithy, village, baron, great_hall};
+        -:   51:
+        -:   52:	struct gameState G;
+        -:   53:
+        1:   54:	printf ("TESTING drawCard.\n");
+        -:   55:
+        1:   56:	memset(&G, 23, sizeof(struct gameState));
+        1:   57:	initializeGame(2, k, 1000, &G);
+        1:   58:	checkDrawCard(0, &G);
+        -:   59:
+        1:   60:	return 0;
+        -:   61:}

@@ -1,0 +1,66 @@
+BugsInTeammatecode.txt
+Bug-Reports
+G.handCount = 2, expected = 3
+Smith TEST FAILED
+Test player 0 playing Smithy card, hand size: 2
+G.handCount = 3, expected = 4
+Smith TEST FAILED
+Test player 0 playing Smithy card, hand size: 3
+G.handCount = 4, expected = 5
+
+TESTING adventurer card:
+Test player 0 playing adventurer card, hand size: 1
+G.handCount = 5, 0 <= expected <= 2
+Adventurer TEST FAILED
+Test player 0 playing adventurer card, hand size: 2
+G.handCount = 6, 1 <= expected <= 3
+Adventurer TEST FAILED
+Test player 0 playing adventurer card, hand size: 3
+G.handCount = 7, 2 <= expected <= 4
+Adventurer TEST FAILED
+Test player 0 playing adventurer card, hand size: 4
+G.handCount = 8, 3 <= expected <= 5
+Adventurer TEST FAILED
+Test player 0 playing adventurer card, hand size: 5
+G.handCount = 9, 4 <= expected <= 6
+Adventurer TEST FAILED
+Test player 1 playing adventurer card, hand size: 1
+G.handCount = 6, 0 <= expected <= 2
+
+Village TEST FAILED
+Test player 0 playing Village card, hand size: 1
+G.handCount = 1, expected = 1
+G.numActions = 2, expected = 2
+Village TEST PASSED
+Test player 0 playing Village card, hand size: 2
+G.handCount = 2, expected = 2
+G.numActions = 2, expected = 2
+
+For assignment 5 I chose to review Jason’s code. I created a separate folder in my dominion test folder under a directory called zmudajDominion containing my test code and his refactored dominion code from assignment 2.  After running my test suite I identified 3 potential bugs in the refactored code. Upon further inspection I discovered the Failing tests for dominion were related to a bug in my card test for Village instead of one in Jason’s code. 
+Bugged cardtest.c
+if (G.handCount[p] == handCount && G.numActions == correctActions)
+Fixed cardtest.c
+
+if (G.handCount[p] == handCount && G.numActions[p] == correctActions)
+
+This particular bug was not caught in my original testing because my Village code was refactored to contain a bug and always returned a Failed Test. After implementing the change to my test code the bug no longer appeared in my test output.
+Upon reviewing the bug report Smithy appears to draw 1 fewer cards than intended. Adventurer draws more cards than expected. Upon manually reviewing the code, I discovered the errors linked to the following lines:
+Smithy Bug
+line 1187
+for (i = 1; i < 3; i++)
+{
+      drawCard(currentPlayer, state);
+}
+
+Adventurer Bug
+Line 1156
+if (cardDrawn == copper || cardDrawn == silver && cardDrawn == gold)
+	drawntreasure++;
+
+GreatHall Bug
+Line 1217
+state->numActions--;
+
+The bug in smithy is caused by initializing the counter at a number that is too low, it should either be set to 0, or increase the count to 4, as it stands the loop for drawing cards only occurs twice instead of the intended 3 times. 
+As for adventurer, the if statement should increase the drawntreasure count if the cardDrawn is a copper, or a silver, or a gold. Instead it will only increment drawntreasure if the treasure drawn is a copper or if it is BOTH a silver and a gold, which is not possible. This will cause the loop which is reliant on an accurate count of drawntreasure to add gold and silver to the hand but not count those cards towards the amount of drawntreasure, effectively adding all gold and silvers until 2 coppers are drawn.
+While I had no test code for Great Hall implemented, I discovered a line that was obviously refactored, GreatHall should increase the number of actions instead of decrementing them. 
